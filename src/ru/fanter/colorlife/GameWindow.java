@@ -15,30 +15,35 @@ enum GameMode {
 
 public class GameWindow extends JFrame {
 	public static final int SQUARE_NUMBER = 10;
-	public static final int SQUARE_SIZE = 64;
+	public static final int SQUARE_SIZE = 60;
 	public static final int FIELD_SIZE = SQUARE_SIZE * SQUARE_NUMBER;
 	public static final int FOOTER_HEIGHT = 100;
 	public static final int UPDATE_RATE = 35;					//number of updates per seconds
 	public static final int UPDATE_PERIOD = 1000/UPDATE_RATE;	//time for one update in millis
 	public static final int INDENT_X = 10;
 	public static final int INDENT_Y = 10;
-	public static int WIDTH;
-	public static int HEIGHT;
-	GraphicsEnvironment env;
-	GraphicsDevice defaultScreen;
-	DisplayMode defaultMode;
-	DisplayMode newMode;
+	public static final int WIDTH = 700;
+	public static final int HEIGHT = 740;
 
-	GamePanel gamePanel;
-	GameGrid gameGrid;
-	GameLine gameLine;
-	GamePointers gamePointers;
-	GameArrows gameArrows;
-	GameFigures gameFigures;
-	GameElements gameElements;
-	GameState gameState;
-	GameReceivers gameReceivers;
-	Figure figure;
+	//for fullscreen mode
+	private GraphicsEnvironment env;
+	private GraphicsDevice defaultScreen;
+	private DisplayMode defaultMode;
+	private DisplayMode newMode;
+
+	private GamePanel gamePanel;
+	private GameGrid gameGrid;
+	private LineArrow lineArrow;
+	private GameLine gameLine;
+	private GamePointers gamePointers;
+	private GameArrows gameArrows;
+	private GameFigures gameFigures;
+	private GameElements gameElements;
+	private GameState gameState;
+	private GameReceivers gameReceivers;
+
+	private boolean allowToStart;
+
 
 	public GameWindow() {
 		gameInit();
@@ -49,25 +54,25 @@ public class GameWindow extends JFrame {
 	public void gameInit() {
 		gamePanel = new GamePanel();
 		gameGrid = new GameGrid();
+		lineArrow = new LineArrow();
 		gamePointers = new GamePointers();
-		gameLine = new GameLine(gamePointers);
+		gameLine = new GameLine(gamePointers, lineArrow);
 		gameArrows = new GameArrows();
 		gameFigures = new GameFigures();
 		gameElements = new GameElements();
 		gameReceivers = new GameReceivers(gamePointers);
-		figure = gameFigures.getInitialFigure();
-		gameState = GameState.PAUSE;
+		gameState = GameState.EDITING;
+
+		allowToStart = true;
 	}
 
 	public void gameWindowInit() {
-		env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		defaultScreen = env.getDefaultScreenDevice();
-		defaultMode = defaultScreen.getDisplayMode();
-		newMode = new DisplayMode(1024, 768, 32, 60);
-		WIDTH = 700;
-		HEIGHT = 768;
+//		env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		defaultScreen = env.getDefaultScreenDevice();
+//		defaultMode = defaultScreen.getDisplayMode();
+//		newMode = new DisplayMode(1024, 768, 32, 60);
 
-		gamePanel.setPreferredSize(new Dimension(700, 768));
+		gamePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		gamePanel.setBackground(Color.LIGHT_GRAY);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,14 +121,29 @@ public class GameWindow extends JFrame {
 	public void gameUpdate() {
 		switch(gameState) {
 			case DEBUGGING: case RUNNING:
+				if (allowToStart) {
+					gameFigures.clear();
+					gameFigures.createFigure(lineArrow.getX(), lineArrow.getY(), 
+											 			lineArrow.getDirection());
+					allowToStart = false;
+				}
+
 				gameFigures.update(gamePointers);
-				if (gameFigures.isCollisionHappened()) {
+				if (gameFigures.checkErrors()) {
 					gameState = GameState.LOST;
 				} else if (gameReceivers.isFull()) {
 					gameState = GameState.WON;
 				}
 				break;
-			case PAUSE: LOST: WON:
+			case EDITING:
+				gameFigures.clear();
+				gameReceivers.resetCount();
+				allowToStart = true;
+				break;
+			case PAUSE: 
+				break;
+			case LOST: case WON:
+				allowToStart = true;
 				break;
 			default:
 				break;
@@ -195,7 +215,7 @@ public class GameWindow extends JFrame {
 		@Override 
 		public void mouseClicked(MouseEvent e) {
 			switch(gameState) {
-				case DEBUGGING:
+				case DEBUGGING: case EDITING:
 					gameElements.mouseClicked(e, gamePointers, gameLine, gamePanel);
 					gameLine.getLineArrow().mouseClicked(e, gamePointers, gameLine, gamePanel);
 					switch(gameState) {
@@ -214,26 +234,46 @@ public class GameWindow extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			gameArrows.mousePressed(e, gamePointers, gamePanel);
-			gameLine.getLineArrow().mousePressed(e, gamePointers, gamePanel);
-			gameElements.mousePressed(e, gamePointers, gamePanel);
-			gameReceivers.mousePressed(e, gamePointers, gamePanel);
+			switch(gameState) {
+				case DEBUGGING: case EDITING:
+					gameArrows.mousePressed(e, gamePointers, gamePanel);
+					gameLine.getLineArrow().mousePressed(e, gamePointers, gamePanel);
+					gameElements.mousePressed(e, gamePointers, gamePanel);
+					gameReceivers.mousePressed(e, gamePointers, gamePanel);
+					break;
+				default:
+					break;
+			}
+
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			gameArrows.mouseDragged(e, gamePointers, gamePanel);
-			gameLine.getLineArrow().mouseDragged(e, gamePointers, figure, gamePanel);
-			gameElements.mouseDragged(e, gamePointers, gamePanel);
-			gameReceivers.mouseDragged(e, gamePointers, gamePanel);
+			switch(gameState) {
+				case DEBUGGING: case EDITING:
+					gameArrows.mouseDragged(e, gamePointers, gamePanel);
+					gameLine.getLineArrow().mouseDragged(e, gamePointers, gamePanel);
+					gameElements.mouseDragged(e, gamePointers, gamePanel);
+					gameReceivers.mouseDragged(e, gamePointers, gamePanel);
+					break;
+				default:
+					break;
+			}
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			gameArrows.mouseReleased(e, gamePointers, gameLine, gamePanel);
-			gameLine.getLineArrow().mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
-			gameElements.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
-			gameReceivers.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
+			switch(gameState) {
+				case DEBUGGING: case EDITING:
+					gameArrows.mouseReleased(e, gamePointers, gameLine, gamePanel);
+					gameLine.getLineArrow().mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
+					gameElements.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
+					gameReceivers.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
@@ -243,14 +283,17 @@ public class GameWindow extends JFrame {
 			System.out.println(e.getKeyCode());
 
 			switch(e.getKeyCode()) {
-				case 65: 
+				case 68: //'D'
 					gameState = GameState.DEBUGGING;
 					break;
-				case 83:
+				case 83: //'S'
 					gameState = GameState.RUNNING;
 					break;
-				case 68:
+				case 80: //'P'
 					gameState = GameState.PAUSE;
+					break;
+				case 65: //'A'
+					gameState = GameState.EDITING;
 					break;
 				default:
 					break;

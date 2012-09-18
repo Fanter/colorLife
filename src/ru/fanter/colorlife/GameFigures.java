@@ -8,17 +8,23 @@ import java.awt.Graphics;
 public class GameFigures {
 	List<Figure> figureList = new ArrayList<Figure>();
 	List<Figure> tempFigureList = new ArrayList<Figure>();
+	private boolean isError = false;
 
 	public GameFigures() {
-		Figure figure = new Figure(GameWindow.SQUARE_SIZE / 2, GameWindow.FIELD_SIZE / 2, Direction.RIGHT);
+
+	}
+
+	public void clear() {
+		figureList.clear();
+	}
+
+	public void createFigure(int x, int y, Direction direction) {
+		Figure figure = new Figure(x, y, direction);
 		figureList.add(figure);
 	}
 
-	public Figure getInitialFigure() {
-		return figureList.get(0);
-	}
-
 	public void update(GamePointers gamePointers) {
+		isError = false;
 		synchronized(figureList) {
 			Iterator<Figure> it = figureList.iterator();
 			while(it.hasNext()) {
@@ -36,6 +42,8 @@ public class GameFigures {
 			figureList.addAll(tempFigureList);
 			tempFigureList.clear();
 		}
+		checkCollisions();
+		checkOutOfField();
 	}
 
 	private void changeFigureProperties(Figure figure, GamePointers gamePointers) {
@@ -70,25 +78,41 @@ public class GameFigures {
 					figure.setDirection(direction[0]);
 				}
 			} else if (pointer.isReceiver()) {
-				System.out.println("isReceiver");
 				if (pointer.getReceiverColor() == figure.getFigureColor() &&
 							pointer.getReceiverShape() == figure.getFigureShape()) {
 					figure.isDead(true);
 					pointer.increaseReceiverCounter();
+				} else {
+					isError = true;
 				}
 			}
 		}
 	}
 
-	public boolean isCollisionHappened() {
+	public void checkCollisions() {
 		Iterator<Figure> it = figureList.iterator();
 		while(it.hasNext()) {
 			Figure tempFigure = it.next();
 			if (isCollided(tempFigure)) {
-				return true;
+				isError = true;
+				return;
 			}
 		}
-		return false;
+	}
+
+	public void checkOutOfField() {
+		Iterator<Figure> it = figureList.iterator();
+		while(it.hasNext()) {
+			Figure tempFigure = it.next();
+			if (tempFigure.isOutOfField()) {
+				isError = true;
+				return;
+			}
+		}
+	}
+
+	public boolean checkErrors() {
+		return isError;
 	}
 
 	private boolean isCollided(Figure figure) {

@@ -37,6 +37,10 @@ public class Receiver extends DraggableElement {
 		elementCounter++;
 	}
 
+	public void resetCount() {
+		elementCounter = 0;
+	}
+
 	public int getCounter() {
 		return elementCounter;
 	}

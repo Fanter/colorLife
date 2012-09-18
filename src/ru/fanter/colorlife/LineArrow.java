@@ -184,13 +184,12 @@ public class LineArrow {
 		} 
 	}
 
-	public void mouseDragged(MouseEvent e, GamePointers gamePointers, Figure gameFigure, JPanel panel) {
+	public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {
 		Pointer pointer = gamePointers.getPointer(e.getX(), e.getY());
 		Direction[] direction = pointer.getDirectionArray();
 
 		if (this.isSelected() && this.isDraggable() && direction[0] == Direction.NONE) {
 			this.setPosition(e.getX(), e.getY());
-			gameFigure.setPosition(e.getX(), e.getY());
 			panel.repaint();
 		}
 	}

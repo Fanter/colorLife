@@ -114,6 +114,15 @@ public class Figure {
 		this.isCloneFigure = isClone;
 	}
 
+	public boolean isOutOfField() {
+		if (x < GameWindow.INDENT_X || y < GameWindow.INDENT_Y 
+						|| x + DIAMETER > GameWindow.FIELD_SIZE + GameWindow.INDENT_X
+						|| y + DIAMETER > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean setPosition() {
 		boolean firstCondition;
 		boolean secondCondition;

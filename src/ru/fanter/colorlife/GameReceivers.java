@@ -23,12 +23,20 @@ public class GameReceivers {
 		return receiverList;
 	}
 
+	public void resetCount() {
+		Iterator<? extends DraggableElement> it = receiverList.iterator();
+		while(it.hasNext()) {
+			Receiver element = (Receiver)it.next();
+			element.resetCount();
+		}
+	}
+
 	public void addElement(GamePointers gamePointers) {
 		Pointer pointer;
 		int receiverX = 501;
 		int receiverY = 351;
 		int receiver2X = 501;
-		int receiver2Y = 251;
+		int receiver2Y = 201;
 
 		Receiver receiver = new Receiver(FigureColor.RED, FigureShape.CIRCLE);
 		receiver.setX(receiverX);

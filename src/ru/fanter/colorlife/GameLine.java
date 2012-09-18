@@ -12,8 +12,8 @@ public class GameLine {
 	private List<LineSegment> lineList = new ArrayList<LineSegment>();
 	private GamePointers gamePointers;
 
-	public GameLine(GamePointers gamePointers) {
-		lineArrow = new LineArrow();
+	public GameLine(GamePointers gamePointers, LineArrow lineArrow) {
+		this.lineArrow = lineArrow;
 		lineArrow.setDirection(Direction.RIGHT);
 		gamePointers.setPointer(lineArrow.getX(), lineArrow.getY(), lineArrow.getDirection());
 		this.gamePointers = gamePointers;
