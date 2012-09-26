@@ -2,6 +2,9 @@ package ru.fanter.colorlife;
 
 import java.awt.*;
 
+import ru.fanter.colorlife.entity.*;
+import ru.fanter.colorlife.entitylogic.*;
+
 public class Pointer {
 	private final int SIZE = 10;
 	private final int ARRAY_SIZE = 3;

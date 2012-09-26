@@ -3,6 +3,8 @@ package ru.fanter.colorlife.background;
 import java.awt.Graphics;
 import java.util.*;
 
+import ru.fanter.colorlife.*;
+
 public class GameGrid {
 	List<Cell> cellList = new ArrayList<Cell>();
 

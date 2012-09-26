@@ -2,6 +2,8 @@ package ru.fanter.colorlife.background;
 
 import java.awt.Graphics;
 
+import ru.fanter.colorlife.*;
+
 public class Cell {
 	private int direction = 0;
 	private int x = 0;

@@ -30,7 +30,7 @@ public class GameLine {
 		Direction[] directionArray = pointer.getDirectionArray();
 		cycleCount++;
 
-		if (cycleCount > 500 || x > GameWindow.FIELD_SIZE || 
+		if (cycleCount > MAX_NUMBER_OF_CYCLES || x > GameWindow.FIELD_SIZE || 
 						y > GameWindow.FIELD_SIZE || x < 0 || y < 0 ||
 						direction == Direction.END) {
 			return;
