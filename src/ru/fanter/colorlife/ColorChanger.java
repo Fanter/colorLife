@@ -27,8 +27,6 @@ public class ColorChanger extends DraggableElement {
 		} else {
 			this.isSelected(true);
 			this.setDraggable(true);
-			setInitX(this.getX());
-			setInitY(this.getY());
 			this.setDraggedCoord(e.getX(), e.getY());
 			pointer = gamePointers.getPointer(this.getX(), this.getY());
 			pointer.isColorChanger(false);

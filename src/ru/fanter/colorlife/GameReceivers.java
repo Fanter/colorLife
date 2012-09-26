@@ -41,7 +41,7 @@ public class GameReceivers {
 		Receiver receiver = new Receiver(FigureColor.RED, FigureShape.CIRCLE);
 		receiver.setX(receiverX);
 		receiver.setY(receiverY);
-		receiver.setPosition();
+		receiver.setPosition(receiver.getX(), receiver.getY());
 		receiverList.add(receiver);
 		pointer = gamePointers.getPointer(receiverX, receiverY);
 		pointer.isReceiver(true);
@@ -51,7 +51,7 @@ public class GameReceivers {
 		Receiver receiver2 = new Receiver(FigureColor.GREEN, FigureShape.CIRCLE);
 		receiver2.setX(receiver2X);
 		receiver2.setY(receiver2Y);
-		receiver2.setPosition();
+		receiver2.setPosition(receiver2.getX(), receiver2.getY());
 		receiverList.add(receiver2);
 		pointer = gamePointers.getPointer(receiver2X, receiver2Y);
 		pointer.isReceiver(true);

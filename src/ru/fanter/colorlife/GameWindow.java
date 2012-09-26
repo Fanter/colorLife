@@ -5,12 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Iterator;
 
+import ru.fanter.colorlife.background.*;
+
 enum GameState {
 	RUNNING, PAUSE, LOST, WON, EDITING, DEBUGGING;
 }
 
 enum GameMode {
-	FULLSCREEN, WINDOWED;
+	FULLSCREEN, WINDOW;
 }
 
 public class GameWindow extends JFrame {
@@ -151,7 +153,6 @@ public class GameWindow extends JFrame {
 	}
 
 	public class GamePanel extends JPanel {
-
 		public GamePanel() {
 			setFocusable(true);
 			requestFocus();
@@ -267,7 +268,7 @@ public class GameWindow extends JFrame {
 			switch(gameState) {
 				case DEBUGGING: case EDITING:
 					gameArrows.mouseReleased(e, gamePointers, gameLine, gamePanel);
-					gameLine.getLineArrow().mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
+					gameLine.getLineArrow().mouseReleased(e, gamePointers, gameLine, gamePanel);
 					gameElements.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
 					gameReceivers.mouseReleased(e, gamePointers, gameLine, gameArrows, gamePanel);
 					break;

@@ -10,8 +10,6 @@ public abstract class DraggableElement {
 	private int y;
 	private int draggedX;
 	private int draggedY;
-	private int initX;
-	private int initY;
 	private boolean draggable = false;
 	private boolean selected = false;
 
@@ -65,22 +63,6 @@ public abstract class DraggableElement {
 		return draggedY;
 	}
 
-	public void setInitX(int initX) {
-		this.initX = initX;
-	}
-
-	public int getInitX() {
-		return initX;
-	}
-
-	public void setInitY(int initY) {
-		this.initY = initY;
-	}
-
-	public int getInitY() {
-		return initY;
-	}
-
 	public boolean isDraggable() {
 		return draggable;
 	}
@@ -106,33 +88,15 @@ public abstract class DraggableElement {
 		return isInsideX && isInsideY;
 	}
 
-	public boolean setPosition() {
-		boolean firstCondition;
-		boolean secondCondition;
-
-		for(int i = GameWindow.INDENT_X; i < GameWindow.FIELD_SIZE; i+=GameWindow.SQUARE_SIZE) {
-			for(int j = GameWindow.INDENT_Y; j < GameWindow.FIELD_SIZE; j+=GameWindow.SQUARE_SIZE) {
-				firstCondition = x > i && x < i + GameWindow.SQUARE_SIZE;
-				secondCondition = y > j && y < j + GameWindow.SQUARE_SIZE;
-				if (firstCondition && secondCondition) {
-					x = i + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
-					y = j + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	public boolean setPosition(int dx, int dy) {
-		boolean firstCondition;
-		boolean secondCondition;
+		boolean isXInsideFieldCell;
+		boolean isYInsideFieldCell;
 
 		for(int i = GameWindow.INDENT_X; i < GameWindow.FIELD_SIZE; i+=GameWindow.SQUARE_SIZE) {
 			for(int j = GameWindow.INDENT_Y; j < GameWindow.FIELD_SIZE; j+=GameWindow.SQUARE_SIZE) {
-				firstCondition = dx > i && dx < i + GameWindow.SQUARE_SIZE;
-				secondCondition = dy > j && dy < j + GameWindow.SQUARE_SIZE;
-				if (firstCondition && secondCondition) {
+				isXInsideFieldCell = dx > i && dx < i + GameWindow.SQUARE_SIZE;
+				isYInsideFieldCell = dy > j && dy < j + GameWindow.SQUARE_SIZE;
+				if (isXInsideFieldCell && isYInsideFieldCell) {
 					x = i + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
 					y = j + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
 					return true;

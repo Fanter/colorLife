@@ -7,16 +7,17 @@ import java.util.*;
 public class GameLine {
 	private int x;			//coordinates of initial point which we get 
 	private int y;			//from LineArrow
-	private int count;
-	private LineArrow lineArrow;
+	private static final int MAX_NUMBER_OF_CYCLES = 500;
+	private int cycleCount;
 	private List<LineSegment> lineList = new ArrayList<LineSegment>();
+	private LineArrow lineArrow;
 	private GamePointers gamePointers;
 
 	public GameLine(GamePointers gamePointers, LineArrow lineArrow) {
 		this.lineArrow = lineArrow;
+		this.gamePointers = gamePointers;
 		lineArrow.setDirection(Direction.RIGHT);
 		gamePointers.setPointer(lineArrow.getX(), lineArrow.getY(), lineArrow.getDirection());
-		this.gamePointers = gamePointers;
 	}
 
 	public void constructLines() {
@@ -27,9 +28,9 @@ public class GameLine {
 	private void constructLinesRecursion(int x, int y, Direction direction) {
 		Pointer pointer = gamePointers.getPointer(x, y);
 		Direction[] directionArray = pointer.getDirectionArray();
-		count++;
+		cycleCount++;
 
-		if (count > 500 || x > GameWindow.FIELD_SIZE || 
+		if (cycleCount > 500 || x > GameWindow.FIELD_SIZE || 
 						y > GameWindow.FIELD_SIZE || x < 0 || y < 0 ||
 						direction == Direction.END) {
 			return;
@@ -74,7 +75,7 @@ public class GameLine {
 	private void resetValues() {
 		x = lineArrow.getLineX();
 		y = lineArrow.getLineY();
-		count = 0;
+		cycleCount = 0;
 		lineList.clear();
 	}
 

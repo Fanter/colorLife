@@ -76,8 +76,6 @@ public class Receiver extends DraggableElement {
 			this.isSelected(true);
 			this.setDraggable(true);
 			elementCounter = 0;
-			setInitX(this.getX());
-			setInitY(this.getY());
 			this.setDraggedCoord(e.getX(), e.getY());
 			gamePointers.resetPointer(this.getX(), this.getY());
 			pointer = gamePointers.getPointer(this.getX(), this.getY());
@@ -101,18 +99,12 @@ public class Receiver extends DraggableElement {
 			this.setDraggable(false);
 
 			pointer = gamePointers.getPointer(this.getX(), this.getY());
-			if (e.getY() > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y) {
-				gamePointers.resetPointer(this.getX(), this.getY());
-				pointer.setReceiver(null);
-				pointer.isReceiver(false);
-			} else {
-				gamePointers.setPointer(this.getX(), this.getY(), Direction.END, Direction.END);
-				pointer.setReceiver(this);
-				pointer.isReceiver(true);
-			}
+			gamePointers.setPointer(this.getX(), this.getY(), Direction.END, Direction.END);
+			pointer.setReceiver(this);
+			pointer.isReceiver(true);
 			gameLine.constructLines();
 			panel.repaint();
-		}//if(this.isSelecter())
+		}
 	}
 
 	public void draw(Graphics g) {
@@ -164,7 +156,7 @@ public class Receiver extends DraggableElement {
 					g.setColor(Color.BLACK);
 					g.drawRoundRect(getX(), getY(), getDiameter(), getDiameter(), 10, 10);
 					break;
-			}//switch
+			}//switch(figureShape)
 		}
 		drawCounterDots(g);
 	}

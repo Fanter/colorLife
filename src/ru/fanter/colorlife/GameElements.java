@@ -137,7 +137,7 @@ public class GameElements {
 			DraggableElement element = it.next();
 			element.mouseReleased(e, gamePointers, gameLine, gameArrows, panel);
 			if (element.isSelected() && e.getY() > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y ||
-									(!element.setPosition() && element.isSelected())) {
+									(!element.setPosition(element.getX(), element.getY()) && element.isSelected())) {
 				elementCounter.incElementCount(element.getElementType());
 				typeList.add(element.getElementType());
 				it.remove();

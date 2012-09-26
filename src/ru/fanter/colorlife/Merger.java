@@ -53,8 +53,6 @@ public class Merger extends DraggableElement{
 		} else {
 			this.isSelected(true);
 			this.setDraggable(true);
-			setInitX(this.getX());
-			setInitY(this.getY());
 			this.setDraggedCoord(e.getX(), e.getY());
 			gamePointers.resetPointer(this.getX(), this.getY());
 			pointer = gamePointers.getPointer(this.getX(), this.getY());

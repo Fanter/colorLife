@@ -27,7 +27,7 @@ public class LineArrow {
 		x = GameWindow.SQUARE_SIZE / 2;
 		y = GameWindow.FIELD_SIZE / 2;
 		setLinePosition();
-		setPosition();
+		setPosition(x, y);
 		direction = Direction.RIGHT;
 	}
 
@@ -95,24 +95,6 @@ public class LineArrow {
 
 	public void isSelected(boolean isSelected) {
 		selected = isSelected;
-	}
-
-	public boolean setPosition() {
-		boolean firstCondition;
-		boolean secondCondition;
-
-		for(int i = GameWindow.INDENT_X; i < GameWindow.FIELD_SIZE; i+=GameWindow.SQUARE_SIZE) {
-			for(int j = GameWindow.INDENT_Y; j < GameWindow.FIELD_SIZE; j+=GameWindow.SQUARE_SIZE) {
-				firstCondition = x >= i && x <= i + GameWindow.SQUARE_SIZE;
-				secondCondition = y >= j && y <= j + GameWindow.SQUARE_SIZE;
-				if (firstCondition && secondCondition) {
-					x = i + GameWindow.SQUARE_SIZE/2 - SIZE/2;
-					y = j + GameWindow.SQUARE_SIZE/2 - SIZE/2;
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public boolean setPosition(int dx, int dy) {
@@ -195,33 +177,14 @@ public class LineArrow {
 	}
 
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, 
-					GameLine gameLine, GameArrows gameArrows, JPanel panel) {
+					GameLine gameLine, JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
-			//check if square where arrow was released isn't occupied
-			//by another arrow
-			Iterator<? extends DraggableArrow> it = 
-								gameArrows.getArrowList().iterator();
-			while(it.hasNext()) {
-				DraggableArrow tempArrow = it.next();
-				if (tempArrow.isInsideCellContaining(this.getX(), this.getY())) {
-					this.setX(initX);
-					this.setY(initY);
-				}
-			}
 
-			//if arrow position can be established 
-			//change poiner value and redraw the line
-			if (this.setPosition()) {
-				this.setLinePosition();
-				gamePointers.setPointer(this.getX(), this.getY(), this.getDirection());
-				gameLine.constructLines();
-				panel.repaint();
-			} else {
-				gamePointers.setPointer(this.getX(), this.getY(), this.getDirection());
-				gameLine.constructLines();
-				panel.repaint();
-			}
+			this.setLinePosition();
+			gamePointers.setPointer(this.getX(), this.getY(), this.getDirection());
+			gameLine.constructLines();
+			panel.repaint();
 		}
 	}
 
