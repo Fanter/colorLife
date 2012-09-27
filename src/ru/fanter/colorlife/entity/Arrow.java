@@ -9,11 +9,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import ru.fanter.colorlife.*;
+import ru.fanter.colorlife.line.GameLine;
 
 public class Arrow extends DraggableElement{
     private ElementType elementType;
     private Direction direction;
-    private Pointer pointer;
     
     public Arrow(Direction direction, ElementType elementType) {
         this.direction = direction;
@@ -34,18 +34,7 @@ public class Arrow extends DraggableElement{
             this.setDraggable(true);
             this.setDraggedCoord(e.getX(), e.getY());
             gamePointers.resetPointer(this.getX(), this.getY());
-            pointer = gamePointers.getPointer(this.getX(), this.getY());
         } 
-    }
-    
-    @Override
-    public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {
-        pointer = gamePointers.getPointer(e.getX(), e.getY());
-
-        if (this.isDraggable() && !pointer.isContainingElements()) {
-            this.setPosition(e.getX(), e.getY());
-            panel.repaint();
-        }
     }
     
     @Override
@@ -54,8 +43,6 @@ public class Arrow extends DraggableElement{
         if (this.isSelected()) {
             this.setDraggable(false);
 
-            
-            pointer = gamePointers.getPointer(this.getX(), this.getY());
             if (e.getY() > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y) {
                 gamePointers.resetPointer(this.getX(), this.getY());
             } else {

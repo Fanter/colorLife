@@ -5,7 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import ru.fanter.colorlife.background.*;
+import ru.fanter.colorlife.entity.LineArrow;
 import ru.fanter.colorlife.entitylogic.*;
+import ru.fanter.colorlife.line.GameLine;
 
 enum GameState {
     RUNNING, PAUSE, LOST, WON, EDITING, DEBUGGING;
@@ -28,12 +30,6 @@ public class GameWindow extends JFrame {
     public static final int INDENT_Y = 10;
     public static final int WIDTH = 700;
     public static final int HEIGHT = 740;
-
-    // for fullscreen mode
-    private GraphicsEnvironment env;
-    private GraphicsDevice defaultScreen;
-    private DisplayMode defaultMode;
-    private DisplayMode newMode;
 
     private GamePanel gamePanel;
     private GameGrid gameGrid;
@@ -68,21 +64,12 @@ public class GameWindow extends JFrame {
     }
 
     public void gameWindowInit() {
-        // env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // defaultScreen = env.getDefaultScreenDevice();
-        // defaultMode = defaultScreen.getDisplayMode();
-        // newMode = new DisplayMode(1024, 768, 32, 60);
-
         gamePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gamePanel.setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().add(BorderLayout.CENTER, gamePanel);
-        // this.setUndecorated(true);
-        // this.setResizable(false);
         this.pack();
-        // defaultScreen.setFullScreenWindow(this);
-        // defaultScreen.setDisplayMode(newMode);
         this.setVisible(true);
     }
 
@@ -187,7 +174,6 @@ public class GameWindow extends JFrame {
 
         public void drawErrorMessage(Graphics g) {
             int firstLineWidth;
-            int secondLineWidth;
 
             Font gameOverFont = new Font("SansSerif", Font.BOLD, 50);
             FontMetrics metrics = g.getFontMetrics(gameOverFont);
@@ -200,7 +186,6 @@ public class GameWindow extends JFrame {
 
         public void drawWinningMessage(Graphics g) {
             int firstLineWidth;
-            int secondLineWidth;
 
             Font gameOverFont = new Font("SansSerif", Font.BOLD, 50);
             FontMetrics metrics = g.getFontMetrics(gameOverFont);

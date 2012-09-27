@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import ru.fanter.colorlife.*;
 import ru.fanter.colorlife.entity.*;
+import ru.fanter.colorlife.line.GameLine;
 
 public class GameElements {
 	private final int INIT_X = 170;

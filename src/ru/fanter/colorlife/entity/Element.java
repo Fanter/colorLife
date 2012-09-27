@@ -5,6 +5,8 @@ import ru.fanter.colorlife.GameWindow;
 public abstract class Element {
     public static final int ARROW_SIZE = 8;
     public static final int ELEM_SIZE = 36;
+    public static final int FIGURE_SIZE = 36;
+    public static final int LINE_ARROW_SIZE = 36;
     private int size;
     private int x;
     private int y;

@@ -6,10 +6,10 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import ru.fanter.colorlife.*;
+import ru.fanter.colorlife.line.GameLine;
 
 public class Merger extends DraggableElement{
 	private Direction direction = Direction.DOWN;
-	private Pointer pointer;
 	private FigureColor figureColor;
 	private FigureShape figureShape;
 	private ElementType elementType = ElementType.MERGER;
@@ -18,26 +18,7 @@ public class Merger extends DraggableElement{
 	    setSize(Element.ELEM_SIZE);
 	}
 
-	public ElementType getElementType() {
-		return elementType;
-	}
-
-	public FigureColor getMergerColor() {
-		return figureColor;
-	}
-
-	public void setMergerColor(FigureColor figureColor) {
-		this.figureColor = figureColor;
-	}
-
-	public FigureShape getMergerShape() {
-		return figureShape;
-	}
-
-	public void setMergerShape(FigureShape figureShape) {
-		this.figureShape = figureShape;
-	}
-
+	@Override
 	public void mouseClicked(MouseEvent e, GamePointers gamePointers, GameLine gameLine, JPanel panel) {
 		if (this.isContaining(e.getX(), e.getY())) {
 			direction = direction.next();
@@ -47,6 +28,7 @@ public class Merger extends DraggableElement{
 		}
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e, GamePointers gamePointers, JPanel panel) {
 		if (!(this.isContaining(e.getX(), e.getY()))) {
 			this.isSelected(false);
@@ -55,27 +37,19 @@ public class Merger extends DraggableElement{
 			this.setDraggable(true);
 			this.setDraggedCoord(e.getX(), e.getY());
 			gamePointers.resetPointer(this.getX(), this.getY());
-			pointer = gamePointers.getPointer(this.getX(), this.getY());
+			Pointer pointer = gamePointers.getPointer(this.getX(), this.getY());
 			pointer.setMerger(null);
 			pointer.isMerger(false);
 		} 
 	}
 
-	public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {
-		pointer = gamePointers.getPointer(e.getX(), e.getY());
-
-		if (this.isDraggable() && !pointer.isContainingElements()) {
-			this.setPosition(e.getX(), e.getY());
-			panel.repaint();
-		}
-	}
-
+	@Override
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
 													JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
 
-			pointer = gamePointers.getPointer(this.getX(), this.getY());
+			Pointer pointer = gamePointers.getPointer(this.getX(), this.getY());
 			if (e.getY() > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y) {
 				gamePointers.resetPointer(this.getX(), this.getY());
 				pointer.setMerger(null);
@@ -121,4 +95,24 @@ public class Merger extends DraggableElement{
 				break;
 		}
 	}
+	
+    public ElementType getElementType() {
+        return elementType;
+    }
+
+    public FigureColor getMergerColor() {
+        return figureColor;
+    }
+
+    public void setMergerColor(FigureColor figureColor) {
+        this.figureColor = figureColor;
+    }
+
+    public FigureShape getMergerShape() {
+        return figureShape;
+    }
+
+    public void setMergerShape(FigureShape figureShape) {
+        this.figureShape = figureShape;
+    }
 }

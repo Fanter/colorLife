@@ -8,9 +8,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import ru.fanter.colorlife.*;
+import ru.fanter.colorlife.line.GameLine;
 
 public class Receiver extends DraggableElement {
-	private Pointer pointer;
 	private FigureColor figureColor;
 	private FigureShape figureShape;
 	private int elementCounter;
@@ -21,39 +21,8 @@ public class Receiver extends DraggableElement {
 		this.figureShape = figureShape;
 		setSize(Element.ELEM_SIZE);
 	}
-
-	public ElementType getElementType() {
-		return elementType;
-	}
-
-	public FigureColor getReceiverColor() {
-		return figureColor;
-	}
-
-	public FigureShape getReceiverShape() {
-		return figureShape;
-	}
-
-	public void increaseCounter() {
-		elementCounter++;
-	}
-
-	public void resetCount() {
-		elementCounter = 0;
-	}
-
-	public int getCounter() {
-		return elementCounter;
-	}
-
-	public void setRecieverColor(FigureColor figureColor) {
-		this.figureColor = figureColor;
-	}
-
-	public void setReceiverShape(FigureShape figureShape) {
-		this.figureShape = figureShape;
-	}
 	
+	@Override
 	public void mouseClicked(MouseEvent e, GamePointers gamePointers, GameLine gameLine, JPanel panel) {
 		if (this.isContaining(e.getX(), e.getY())) {
 			switch(e.getButton()) {
@@ -70,6 +39,7 @@ public class Receiver extends DraggableElement {
 		}
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e, GamePointers gamePointers, JPanel panel) {
 		if (!(this.isContaining(e.getX(), e.getY()))) {
 			this.isSelected(false);
@@ -79,27 +49,19 @@ public class Receiver extends DraggableElement {
 			elementCounter = 0;
 			this.setDraggedCoord(e.getX(), e.getY());
 			gamePointers.resetPointer(this.getX(), this.getY());
-			pointer = gamePointers.getPointer(this.getX(), this.getY());
+			Pointer pointer = gamePointers.getPointer(this.getX(), this.getY());
 			pointer.setReceiver(null);
 			pointer.isReceiver(false);
 		} 
 	}
 
-	public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {
-		pointer = gamePointers.getPointer(e.getX(), e.getY());
-
-		if (this.isDraggable() && !pointer.isContainingElements()) {
-			this.setPosition(e.getX(), e.getY());
-			panel.repaint();
-		}
-	}
-
+	@Override
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
 													JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
 
-			pointer = gamePointers.getPointer(this.getX(), this.getY());
+			Pointer pointer = gamePointers.getPointer(this.getX(), this.getY());
 			gamePointers.setPointer(this.getX(), this.getY(), Direction.END, Direction.END);
 			pointer.setReceiver(this);
 			pointer.isReceiver(true);
@@ -193,4 +155,36 @@ public class Receiver extends DraggableElement {
 			g.fillOval(counterX - cDiameter/2, counterY - cDiameter/2, cDiameter, cDiameter);
 		}
 	}
+	
+    public ElementType getElementType() {
+        return elementType;
+    }
+
+    public FigureColor getReceiverColor() {
+        return figureColor;
+    }
+
+    public FigureShape getReceiverShape() {
+        return figureShape;
+    }
+
+    public void increaseCounter() {
+        elementCounter++;
+    }
+
+    public void resetCount() {
+        elementCounter = 0;
+    }
+
+    public int getCounter() {
+        return elementCounter;
+    }
+
+    public void setRecieverColor(FigureColor figureColor) {
+        this.figureColor = figureColor;
+    }
+
+    public void setReceiverShape(FigureShape figureShape) {
+        this.figureShape = figureShape;
+    }
 }

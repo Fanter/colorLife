@@ -2,9 +2,11 @@ package ru.fanter.colorlife.entity;
 
 import java.awt.Graphics;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 import ru.fanter.colorlife.*;
+import ru.fanter.colorlife.line.GameLine;
 
 public abstract class DraggableElement extends Element{
 	private int draggedX;
@@ -16,9 +18,16 @@ public abstract class DraggableElement extends Element{
 	public abstract ElementType getElementType();
 	public void mouseClicked(MouseEvent e, GamePointers gamePointers, GameLine gameLine, JPanel panel) {};
 	public void mousePressed(MouseEvent e, GamePointers gamePointers, JPanel panel) {};
-	public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {};
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
 													JPanel panel) {};
+    public void mouseDragged(MouseEvent e, GamePointers gamePointers, JPanel panel) {
+        Pointer pointer = gamePointers.getPointer(e.getX(), e.getY());
+
+        if (this.isDraggable() && !pointer.isContainingElements()) {
+            this.setPosition(e.getX(), e.getY());
+            panel.repaint();
+        }
+    }
 
 	public void move(int x, int y) {
 		setX(x - draggedX);

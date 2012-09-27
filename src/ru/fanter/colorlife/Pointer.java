@@ -3,7 +3,6 @@ package ru.fanter.colorlife;
 import java.awt.*;
 
 import ru.fanter.colorlife.entity.*;
-import ru.fanter.colorlife.entitylogic.*;
 
 public class Pointer {
 	private final int SIZE = 10;
@@ -31,14 +30,43 @@ public class Pointer {
 			directionArray[i] = Direction.NONE;
 		}
 	}
+	
+    public boolean isContaining(int xCoord, int yCoord) {
+        boolean firstCondition;
+        boolean secondCondition;
 
-	public int getX() {
-		return x;
-	}
+        firstCondition = (xCoord > x && xCoord < (x + GameWindow.SQUARE_SIZE));
+        secondCondition = (yCoord > y && yCoord < (y + GameWindow.SQUARE_SIZE));
+        return firstCondition && secondCondition;
+    }
 
-	public int getY() {
-		return y;
-	}
+    public void drawArray(Graphics g) {
+        int coordX = x + GameWindow.SQUARE_SIZE/2 - SIZE/2;
+        int coordY = y + GameWindow.SQUARE_SIZE/2 - SIZE/2;
+
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            switch(directionArray[i]) {
+                case LEFT:
+                    g.setColor(Color.GREEN);
+                    g.fillRect(coordX -18, coordY, SIZE + 5, SIZE + 5);
+                    break;
+                case RIGHT:
+                    g.setColor(Color.RED);
+                    g.fillRect(coordX + 18, coordY, SIZE + 5, SIZE + 5);
+                    break;
+                case UP:
+                    g.setColor(Color.CYAN);
+                    g.fillRect(coordX, coordY - 18, SIZE + 5, SIZE + 5);
+                    break;
+                case DOWN:
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(coordX, coordY + 18, SIZE + 5, SIZE + 5);
+                    break;
+                default:
+                    break;
+            }//switch
+        }//for
+    }
 
 	public boolean isContainingElements() {
 		boolean isArrow;
@@ -60,10 +88,16 @@ public class Pointer {
 		}
 		return false;
 	}
+	
+    public int getX() {
+        return x;
+    }
 
-//////////////////////////////////////////////////////
+    public int getY() {
+        return y;
+    }
+
 //SPLITTER
-//////////////////////////////////////////////////////
 	public boolean isSplitter() {
 		return isSplitter;
 	}
@@ -72,9 +106,7 @@ public class Pointer {
 		this.isSplitter = splitter;
 	}
 
-//////////////////////////////////////////////////////
 //COLOR CHANGER
-//////////////////////////////////////////////////////
 	public boolean isColorChanger() {
 		return isColorChanger;
 	}
@@ -83,9 +115,7 @@ public class Pointer {
 		this.isColorChanger = colorChanger;
 	} 
 
-//////////////////////////////////////////////////////
 //SHAPE CHANGER
-//////////////////////////////////////////////////////
 	public boolean isShapeChanger() {
 		return isShapeChanger;
 	}
@@ -94,9 +124,7 @@ public class Pointer {
 		this.isShapeChanger = shapeChanger;
 	}
 
-//////////////////////////////////////////////////////
 //RECYCLER
-//////////////////////////////////////////////////////
 	public boolean isRecycler() {
 		return isRecycler;
 	}
@@ -105,9 +133,7 @@ public class Pointer {
 		this.isRecycler = recycler;
 	}
 
-//////////////////////////////////////////////////////
 //DETECTOR COLOR
-//////////////////////////////////////////////////////
 	public boolean isDetectorColor() {
 		return isDetectorColor;
 	}
@@ -124,9 +150,7 @@ public class Pointer {
 		this.detectorColor = detectorColor;
 	}
 
-//////////////////////////////////////////////////////
 //DETECTOR SHAPE
-//////////////////////////////////////////////////////
 	public boolean isDetectorShape() {
 		return isDetectorShape;
 	}
@@ -143,9 +167,7 @@ public class Pointer {
 		this.detectorShape = detectorShape;
 	}
 
-//////////////////////////////////////////////////////
 //MERGER
-//////////////////////////////////////////////////////
 	public boolean isMerger() {
 		return isMerger;
 	}
@@ -179,9 +201,7 @@ public class Pointer {
 		merger.setMergerShape(null);
 	}
 
-//////////////////////////////////////////////////////
 //RECEIVER
-//////////////////////////////////////////////////////
 	public boolean isReceiver() {
 		return isReceiver;
 	}
@@ -205,9 +225,8 @@ public class Pointer {
 	public void increaseReceiverCounter() {
 		receiver.increaseCounter();
 	}
-//////////////////////////////////////////////////////
+
 //DIRECTION
-//////////////////////////////////////////////////////
 	public Direction getDirection() {
 		return directionArray[0];
 	}
@@ -220,40 +239,5 @@ public class Pointer {
 
 	public Direction[] getDirectionArray() {
 		return directionArray;
-	}
-
-	public boolean isContaining(int xCoord, int yCoord) {
-		boolean firstCondition;
-		boolean secondCondition;
-
-		firstCondition = (xCoord > x && xCoord < (x + GameWindow.SQUARE_SIZE));
-		secondCondition = (yCoord > y && yCoord < (y + GameWindow.SQUARE_SIZE));
-		return firstCondition && secondCondition;
-	}
-
-	public void drawArray(Graphics g) {
-		int coordX = x + GameWindow.SQUARE_SIZE/2 - SIZE/2;
-		int coordY = y + GameWindow.SQUARE_SIZE/2 - SIZE/2;
-
-		for (int i = 0; i < ARRAY_SIZE; i++) {
-			switch(directionArray[i]) {
-				case LEFT:
-					g.setColor(Color.GREEN);
-					g.fillRect(coordX -18, coordY, SIZE + 5, SIZE + 5);
-					break;
-				case RIGHT:
-					g.setColor(Color.RED);
-					g.fillRect(coordX + 18, coordY, SIZE + 5, SIZE + 5);
-					break;
-				case UP:
-					g.setColor(Color.CYAN);
-					g.fillRect(coordX, coordY - 18, SIZE + 5, SIZE + 5);
-					break;
-				case DOWN:
-					g.setColor(Color.YELLOW);
-					g.fillRect(coordX, coordY + 18, SIZE + 5, SIZE + 5);
-					break;
-			}//switch
-		}//for
 	}
 }
