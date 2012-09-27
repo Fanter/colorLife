@@ -4,18 +4,15 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 
 import ru.fanter.colorlife.*;
-import ru.fanter.colorlife.entitylogic.GameArrows;
 
 public class ShapeChanger extends DraggableElement{
-	private final int DIAMETER = 36;
 	private Pointer pointer;
 	private ElementType elementType = ElementType.SHAPE_CHANGER;
-
+	
 	public ShapeChanger() {
-		super.init(DIAMETER);
+	    setSize(Element.ELEM_SIZE);
 	}
 
 	public ElementType getElementType() {
@@ -45,8 +42,8 @@ public class ShapeChanger extends DraggableElement{
 		}
 	}
 
-	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine
-													, GameArrows gameArrows, JPanel panel) {
+	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
+													JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
 
@@ -62,8 +59,8 @@ public class ShapeChanger extends DraggableElement{
 
 	public void draw(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.fillRect(getX(), getY(), getDiameter(), getDiameter());
+		g.fillRect(getX(), getY(), getSize(), getSize());
 		g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getDiameter(), getDiameter());
+		g.drawRect(getX(), getY(), getSize(), getSize());
 	}
 }

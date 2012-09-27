@@ -98,11 +98,11 @@ public class GameReceivers {
 	}
 
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
-													GameArrows gameArrows, JPanel panel) {
+													JPanel panel) {
 		Iterator<? extends DraggableElement> it = receiverList.iterator();
 		while(it.hasNext()) {
 			DraggableElement element = it.next();
-			element.mouseReleased(e, gamePointers, gameLine, gameArrows, panel);
+			element.mouseReleased(e, gamePointers, gameLine, panel);
 		}
 	}
 

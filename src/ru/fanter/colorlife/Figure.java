@@ -20,7 +20,7 @@ public class Figure {
 		this.x = x;
 		this.y = y;
 		this.direction = direction;
-		setPosition();
+		setPosition(x, y);
 	}
 
 	public void setX(int x) {
@@ -119,24 +119,6 @@ public class Figure {
 						|| x + DIAMETER > GameWindow.FIELD_SIZE + GameWindow.INDENT_X
 						|| y + DIAMETER > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y) {
 			return true;
-		}
-		return false;
-	}
-
-	public boolean setPosition() {
-		boolean firstCondition;
-		boolean secondCondition;
-
-		for(int i = GameWindow.INDENT_X; i < GameWindow.FIELD_SIZE; i+=GameWindow.SQUARE_SIZE) {
-			for(int j = GameWindow.INDENT_Y; j < GameWindow.FIELD_SIZE; j+=GameWindow.SQUARE_SIZE) {
-				firstCondition = x >= i && x <= i + GameWindow.SQUARE_SIZE;
-				secondCondition = y >= j && y <= j + GameWindow.SQUARE_SIZE;
-				if (firstCondition && secondCondition) {
-					x = i + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
-					y = j + GameWindow.SQUARE_SIZE/2 - DIAMETER/2;
-					return true;
-				}
-			}
 		}
 		return false;
 	}

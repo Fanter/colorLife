@@ -3,8 +3,6 @@ package ru.fanter.colorlife;
 import java.util.*;
 import java.awt.Graphics;
 
-import ru.fanter.colorlife.entity.*;
-
 public class GamePointers {
     List<Pointer> pointerList = new ArrayList<Pointer>();
 
@@ -45,14 +43,8 @@ public class GamePointers {
         pointer.setDirectionArray(direction2, 1);
     }
 
-    public void resetPointer(DraggableArrow arrow) {
-        Pointer pointer = getPointer(arrow.getX(), arrow.getY());
-        pointer.setDirectionArray(Direction.NONE, 0);
-        pointer.setDirectionArray(Direction.NONE, 1);
-    }
-
-    public void resetPointer(int arrowX, int arrowY) {
-        Pointer pointer = getPointer(arrowX, arrowY);
+    public void resetPointer(int x, int y) {
+        Pointer pointer = getPointer(x, y);
         pointer.setDirectionArray(Direction.NONE, 0);
         pointer.setDirectionArray(Direction.NONE, 1);
     }

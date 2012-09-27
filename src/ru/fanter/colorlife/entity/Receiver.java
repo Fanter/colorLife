@@ -2,16 +2,14 @@ package ru.fanter.colorlife.entity;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 
 import ru.fanter.colorlife.*;
-import ru.fanter.colorlife.entitylogic.GameArrows;
 
 public class Receiver extends DraggableElement {
-	private final int DIAMETER = 36;
-	private final int FINAL_COUNT = 8;
 	private Pointer pointer;
 	private FigureColor figureColor;
 	private FigureShape figureShape;
@@ -19,9 +17,9 @@ public class Receiver extends DraggableElement {
 	private ElementType elementType = ElementType.RECEIVER;
 
 	public Receiver(FigureColor figureColor, FigureShape figureShape) {
-		super.init(DIAMETER);
 		this.figureColor = figureColor;
 		this.figureShape = figureShape;
+		setSize(Element.ELEM_SIZE);
 	}
 
 	public ElementType getElementType() {
@@ -96,8 +94,8 @@ public class Receiver extends DraggableElement {
 		}
 	}
 
-	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine
-													, GameArrows gameArrows, JPanel panel) {
+	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
+													JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
 
@@ -114,6 +112,11 @@ public class Receiver extends DraggableElement {
 		int OFFSET = 6;
 		Color usedColor;
 		Color innerColor = Color.WHITE;
+		
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (figureColor == null) {
 			usedColor = Color.WHITE;
@@ -123,41 +126,41 @@ public class Receiver extends DraggableElement {
 
 		g.setColor(usedColor);
 		if (figureShape == null) {
-			g.fillRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+			g.fillRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 			g.setColor(Color.BLACK);
-			g.drawRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+			g.drawRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 			g.setColor(innerColor);
-			g.fillRect(getX(), getY(), getDiameter(), getDiameter());
+			g.fillRect(getX(), getY(), getSize(), getSize());
 			g.setColor(Color.BLACK);
-			g.drawRect(getX(), getY(), getDiameter(), getDiameter());
+			g.drawRect(getX(), getY(), getSize(), getSize());
 		} else {
 			switch(figureShape) {
 				case CIRCLE:
-					g.fillOval(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+					g.fillOval(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 					g.setColor(Color.BLACK);
-					g.drawOval(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+					g.drawOval(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 					g.setColor(innerColor);
-					g.fillOval(getX(), getY(), getDiameter(), getDiameter());
+					g.fillOval(getX(), getY(), getSize(), getSize());
 					g.setColor(Color.BLACK);
-					g.drawOval(getX(), getY(), getDiameter(), getDiameter());
+					g.drawOval(getX(), getY(), getSize(), getSize());
 					break;
 				case SQUARE:
-					g.fillRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+					g.fillRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 					g.setColor(Color.BLACK);
-					g.drawRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET);
+					g.drawRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET);
 					g.setColor(innerColor);
-					g.fillRect(getX(), getY(), getDiameter(), getDiameter());
+					g.fillRect(getX(), getY(), getSize(), getSize());
 					g.setColor(Color.BLACK);
-					g.drawRect(getX(), getY(), getDiameter(), getDiameter());
+					g.drawRect(getX(), getY(), getSize(), getSize());
 					break;
 				case ROUND_SQUARE:
-					g.fillRoundRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET, 10, 10);
+					g.fillRoundRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET, 10, 10);
 					g.setColor(Color.BLACK);
-					g.drawRoundRect(getX() - OFFSET/2, getY() - OFFSET/2, getDiameter() + OFFSET, getDiameter() + OFFSET, 10, 10);
+					g.drawRoundRect(getX() - OFFSET/2, getY() - OFFSET/2, getSize() + OFFSET, getSize() + OFFSET, 10, 10);
 					g.setColor(innerColor);
-					g.fillRoundRect(getX(), getY(), getDiameter(), getDiameter(), 10, 10);
+					g.fillRoundRect(getX(), getY(), getSize(), getSize(), 10, 10);
 					g.setColor(Color.BLACK);
-					g.drawRoundRect(getX(), getY(), getDiameter(), getDiameter(), 10, 10);
+					g.drawRoundRect(getX(), getY(), getSize(), getSize(), 10, 10);
 					break;
 			}//switch(figureShape)
 		}
@@ -170,12 +173,12 @@ public class Receiver extends DraggableElement {
 		int centerX;
 		int centerY;
 		int cDiameter = 8;
-		double distanceFromCenter = getDiameter()/2 + cDiameter/2 + 6;
+		double distanceFromCenter = getSize()/2 + cDiameter/2 + 6;
 		int degrees = 45;
 		double radians;
 
-		centerX = getX() + getDiameter() / 2;
-		centerY = getY() + getDiameter() / 2;
+		centerX = getX() + getSize() / 2;
+		centerY = getY() + getSize() / 2;
 
 		for(int i = 0; i < 8; i++) {
 			radians = Math.toRadians(i * degrees + 23);

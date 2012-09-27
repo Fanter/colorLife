@@ -3,21 +3,18 @@ package ru.fanter.colorlife.entity;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
+import javax.swing.*; 
 
 import ru.fanter.colorlife.*;
-import ru.fanter.colorlife.entitylogic.GameArrows;
 
 public class DetectorShape extends DraggableElement{
-	private final int DIAMETER = 36;
 	private Direction direction = Direction.DOWN;
 	private Pointer pointer;
 	private FigureShape figureShape = FigureShape.CIRCLE;
 	private ElementType elementType = ElementType.DETECTOR_SHAPE;
-
+	
 	public DetectorShape() {
-		super.init(DIAMETER);
+	    setSize(Element.ELEM_SIZE);
 	}
 
 	public ElementType getElementType() {
@@ -70,8 +67,8 @@ public class DetectorShape extends DraggableElement{
 		}
 	}
 
-	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine
-													, GameArrows gameArrows, JPanel panel) {
+	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
+													JPanel panel) {
 		if (this.isSelected()) {
 			this.setDraggable(false);
 
@@ -94,19 +91,19 @@ public class DetectorShape extends DraggableElement{
 		g.setColor(Color.DARK_GRAY);
 		switch(figureShape) {
 			case CIRCLE:
-				g.fillOval(getX(), getY(), getDiameter(), getDiameter());
+				g.fillOval(getX(), getY(), getSize(), getSize());
 				g.setColor(Color.BLACK);
-				g.drawOval(getX(), getY(), getDiameter(), getDiameter());
+				g.drawOval(getX(), getY(), getSize(), getSize());
 				break;
 			case SQUARE:
-				g.fillRect(getX(), getY(), getDiameter(), getDiameter());
+				g.fillRect(getX(), getY(), getSize(), getSize());
 				g.setColor(Color.BLACK);
-				g.drawRect(getX(), getY(), getDiameter(), getDiameter());
+				g.drawRect(getX(), getY(), getSize(), getSize());
 				break;
 			case ROUND_SQUARE:
-				g.fillRoundRect(getX(), getY(), getDiameter(), getDiameter(), 10, 10);
+				g.fillRoundRect(getX(), getY(), getSize(), getSize(), 10, 10);
 				g.setColor(Color.BLACK);
-				g.drawRoundRect(getX(), getY(), getDiameter(), getDiameter(), 10, 10);
+				g.drawRoundRect(getX(), getY(), getSize(), getSize(), 10, 10);
 				break;
 		}
 	}

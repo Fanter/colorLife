@@ -15,7 +15,6 @@ public class GameElements {
 	private final int INIT_Y = GameWindow.FIELD_SIZE + GameWindow.INDENT_Y + 10;
 	private final int PADDING = 70;
 	private final int PADDING_Y = 47;
-	private int padding = 0;
 	private List<DraggableElement> elementList= new ArrayList<DraggableElement>();
 	private List<ElementType> typeList = new ArrayList<ElementType>();
 	private ElementCounter elementCounter;
@@ -34,6 +33,10 @@ public class GameElements {
 		addElement(ElementType.DETECTOR_COLOR);
 		addElement(ElementType.DETECTOR_SHAPE);
 		addElement(ElementType.MERGER);
+		addElement(ElementType.ARROW_UP);
+		addElement(ElementType.ARROW_DOWN);
+		addElement(ElementType.ARROW_RIGHT);
+		addElement(ElementType.ARROW_LEFT);
 	}
 
 	public List<DraggableElement> getElementList() {
@@ -83,11 +86,34 @@ public class GameElements {
 				merger.setX(INIT_X + PADDING * 3);
 				merger.setY(INIT_Y);
 				elementList.add(0, merger);
-				padding += PADDING;
 				break;
+			case ARROW_UP:
+			    Arrow arrowUp = new Arrow(Direction.UP, elementType);
+			    arrowUp.setX(80);
+			    arrowUp.setY(GameWindow.FIELD_SIZE + 50);
+			    elementList.add(0, arrowUp);
+			    break;
+			case ARROW_DOWN:
+                Arrow arrowDown = new Arrow(Direction.DOWN, elementType);
+                arrowDown.setX(80);
+                arrowDown.setY(GameWindow.FIELD_SIZE + 80);
+                elementList.add(0, arrowDown);
+                break;
+			case ARROW_RIGHT:
+                Arrow arrowRight = new Arrow(Direction.RIGHT, elementType);
+                arrowRight.setX(120);
+                arrowRight.setY(GameWindow.FIELD_SIZE + 80);
+                elementList.add(0, arrowRight);
+                break;
+			case ARROW_LEFT:
+                Arrow arrowLeft = new Arrow(Direction.LEFT, elementType);
+                arrowLeft.setX(40);
+                arrowLeft.setY(GameWindow.FIELD_SIZE + 80);
+                elementList.add(0, arrowLeft);
+                break;
 			default:
 				break;
-		}//switch
+		}//switch(elementType)
 	}//addElement()
 
 	public void mouseClicked(MouseEvent e, GamePointers gamePointers, GameLine gameLine, JPanel panel) {
@@ -129,11 +155,11 @@ public class GameElements {
 	}
 
 	public void mouseReleased(MouseEvent e, GamePointers gamePointers, GameLine gameLine,
-													GameArrows gameArrows, JPanel panel) {
+													JPanel panel) {
 		Iterator<? extends DraggableElement> it = elementList.iterator();
 		while(it.hasNext()) {
 			DraggableElement element = it.next();
-			element.mouseReleased(e, gamePointers, gameLine, gameArrows, panel);
+			element.mouseReleased(e, gamePointers, gameLine, panel);
 			if (element.isSelected() && e.getY() > GameWindow.FIELD_SIZE + GameWindow.INDENT_Y ||
 									(!element.setPosition(element.getX(), element.getY()) && element.isSelected())) {
 				elementCounter.incElementCount(element.getElementType());
@@ -150,19 +176,13 @@ public class GameElements {
 			}
 		}
 		typeList.clear();
-		elementCounter.printCounts();
 	}
 
 	public void draw(Graphics g) {
-		drawFramework(g);
 		Iterator<? extends DraggableElement> it = elementList.iterator();
 		while(it.hasNext()) {
 			DraggableElement element = it.next();
 			element.draw(g);
 		}
-	}
-
-	private void drawFramework(Graphics g) {
-
 	}
 }

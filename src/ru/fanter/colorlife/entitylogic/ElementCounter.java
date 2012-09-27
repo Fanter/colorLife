@@ -38,8 +38,11 @@ public class ElementCounter {
 				return detectorShapeCount;
 			case MERGER:
 				return mergerCount;
+			case ARROW_UP: case ARROW_DOWN: case ARROW_RIGHT:
+			case ARROW_LEFT:
+			    return 2; //number of arrows infinite
 			default:
-				break;
+			    break;
 		}
 		return -1;
 	}
@@ -98,9 +101,5 @@ public class ElementCounter {
 			default:
 				break;
 		}
-	}
-
-	public void printCounts() {
-		System.out.println("SPLITTER = " + splitterCount);
 	}
 }

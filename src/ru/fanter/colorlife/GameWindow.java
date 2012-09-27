@@ -3,7 +3,6 @@ package ru.fanter.colorlife;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.Iterator;
 
 import ru.fanter.colorlife.background.*;
 import ru.fanter.colorlife.entitylogic.*;
@@ -41,7 +40,6 @@ public class GameWindow extends JFrame {
     private LineArrow lineArrow;
     private GameLine gameLine;
     private GamePointers gamePointers;
-    private GameArrows gameArrows;
     private GameFigures gameFigures;
     private GameElements gameElements;
     private GameState gameState;
@@ -61,7 +59,6 @@ public class GameWindow extends JFrame {
         lineArrow = new LineArrow();
         gamePointers = new GamePointers();
         gameLine = new GameLine(gamePointers, lineArrow);
-        gameArrows = new GameArrows();
         gameFigures = new GameFigures();
         gameElements = new GameElements();
         gameReceivers = new GameReceivers(gamePointers);
@@ -173,7 +170,6 @@ public class GameWindow extends JFrame {
             gameGrid.draw(g);
             gameLine.draw(g);
             gamePointers.draw(g);
-            gameArrows.draw(g);
             gameReceivers.draw(g);
             gameFigures.draw(g);
             gameElements.draw(g);
@@ -245,7 +241,6 @@ public class GameWindow extends JFrame {
             switch (gameState) {
             case DEBUGGING:
             case EDITING:
-                gameArrows.mousePressed(e, gamePointers, gamePanel);
                 gameLine.getLineArrow()
                         .mousePressed(e, gamePointers, gamePanel);
                 gameElements.mousePressed(e, gamePointers, gamePanel);
@@ -262,7 +257,6 @@ public class GameWindow extends JFrame {
             switch (gameState) {
             case DEBUGGING:
             case EDITING:
-                gameArrows.mouseDragged(e, gamePointers, gamePanel);
                 gameLine.getLineArrow()
                         .mouseDragged(e, gamePointers, gamePanel);
                 gameElements.mouseDragged(e, gamePointers, gamePanel);
@@ -279,13 +273,12 @@ public class GameWindow extends JFrame {
             switch (gameState) {
             case DEBUGGING:
             case EDITING:
-                gameArrows.mouseReleased(e, gamePointers, gameLine, gamePanel);
                 gameLine.getLineArrow().mouseReleased(e, gamePointers,
                         gameLine, gamePanel);
                 gameElements.mouseReleased(e, gamePointers, gameLine,
-                        gameArrows, gamePanel);
+                        gamePanel);
                 gameReceivers.mouseReleased(e, gamePointers, gameLine,
-                        gameArrows, gamePanel);
+                        gamePanel);
                 break;
             default:
                 break;
