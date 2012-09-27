@@ -11,7 +11,7 @@ public class ElementCounter {
 	private int detectorShapeCount;
 	private int mergerCount;
 	
-
+	//number of elements placed on element panel
 	public void setNumberOfElements() {
 		splitterCount = 5;
 		colorChangerCount = 2;

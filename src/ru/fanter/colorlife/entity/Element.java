@@ -3,7 +3,7 @@ package ru.fanter.colorlife.entity;
 import ru.fanter.colorlife.GameWindow;
 
 public abstract class Element {
-    public static final int ARROW_SIZE = 8;
+    public static final int ARROW_SIZE = 16;
     public static final int ELEM_SIZE = 36;
     public static final int FIGURE_SIZE = 36;
     public static final int LINE_ARROW_SIZE = 36;

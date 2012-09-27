@@ -53,15 +53,6 @@ public class Arrow extends DraggableElement{
         }
     }
     
-    public boolean isContaining(int coordX, int coordY) {
-        boolean isInsideX;
-        boolean isInsideY;
-
-        isInsideX = coordX >= getX() && coordX <= getX() + 16;
-        isInsideY = coordY >= getY() && coordY <= getY() + 16;
-        return isInsideX && isInsideY;
-    }
-    
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
@@ -70,27 +61,27 @@ public class Arrow extends DraggableElement{
         switch(direction) {
             case UP:
                 g2.setColor(Color.CYAN);
-                g2.fillRect(getX(), getY(), 16, 16);
+                g2.fillRect(getX(), getY(), getSize(), getSize());
                 g2.setColor(Color.BLACK);
-                g2.drawRect(getX(), getY(), 16, 16);
+                g2.drawRect(getX(), getY(), getSize(), getSize());
                 break;
             case DOWN:
                 g2.setColor(Color.YELLOW);
-                g2.fillRect(getX(), getY(), 16, 16);
+                g2.fillRect(getX(), getY(), getSize(), getSize());
                 g2.setColor(Color.BLACK);
-                g2.drawRect(getX(), getY(), 16, 16);
+                g2.drawRect(getX(), getY(), getSize(), getSize());
                 break;
             case RIGHT:
                 g2.setColor(Color.RED);
-                g2.fillRect(getX(), getY(), 16, 16);
+                g2.fillRect(getX(), getY(), getSize(), getSize());
                 g2.setColor(Color.BLACK);
-                g2.drawRect(getX(), getY(), 16, 16);
+                g2.drawRect(getX(), getY(), getSize(), getSize());
                 break;
             case LEFT:
                 g2.setColor(Color.GREEN);
-                g2.fillRect(getX(), getY(), 16, 16);
+                g2.fillRect(getX(), getY(), getSize(), getSize());
                 g2.setColor(Color.BLACK);
-                g2.drawRect(getX(), getY(), 16, 16);
+                g2.drawRect(getX(), getY(), getSize(), getSize());
                 break;
             default:
                 break;
